@@ -135,6 +135,7 @@ export class KeyValueCollection<T> {
   }
 
   value(key: string): T {
+    
     return this.map[key];
   }
 }

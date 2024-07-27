@@ -1,11 +1,6 @@
 <div class="container">
-  <mat-form-field appearance="fill" class="field-control">
-    <cl-field-select #fieldSelector [formControl]="field" [allFields]="allFields" />
-    <button *ngIf="field.value" mat-button matSuffix (click)="fieldSelector.clear()">
-      <mat-icon matSuffix>close</mat-icon>
-    </button>
-  </mat-form-field>
-
+  <cl-field-select #fieldSelector [formControl]="field" [allFields]="allFields" />
+ 
   <mat-form-field class="space-left" appearance="fill">
     <mat-label>Condition</mat-label>
     <mat-select [formControl]="condition">

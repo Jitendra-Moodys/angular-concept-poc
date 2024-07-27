@@ -1,29 +1,13 @@
-<mat-button-toggle-group
-  name="condition"
-  aria-label="Condition"
-  (change)="change($event)"
->
-  <mat-button-toggle
-    [value]="LogicalOperator.And"
-    [checked]="operator === LogicalOperator.And"
-    [disabled]="disable"
+<mat-button-toggle-group name="condition" aria-label="Condition" (change)="change($event)">
+  <mat-button-toggle [value]="LogicalOperator.And" [checked]="operator === LogicalOperator.And" [disabled]="disable"
     >And</mat-button-toggle
   >
-  <mat-button-toggle
-    [value]="LogicalOperator.Or"
-    [checked]="operator === LogicalOperator.Or"
-    [disabled]="disable"
+  <mat-button-toggle [value]="LogicalOperator.Or" [checked]="operator === LogicalOperator.Or" [disabled]="disable"
     >Or</mat-button-toggle
   >
 </mat-button-toggle-group>
 
-<button
-  mat-icon-button
-  class="action"
-  aria-label="Add Button"
-  [matMenuTriggerFor]="menu"
-  [disabled]="disable"
->
+<button mat-icon-button class="action" aria-label="Add Button" [matMenuTriggerFor]="menu" [disabled]="disable">
   <mat-icon>add</mat-icon>
 </button>
 

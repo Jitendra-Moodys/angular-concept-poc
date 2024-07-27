@@ -16,13 +16,7 @@
   </div>
 </form>
 
-<ng-template
-  #rulegroup
-  let-group="group"
-  let-rules="rules"
-  let-parent="parent"
-  let-gindex="index"
->
+<ng-template #rulegroup let-group="group" let-rules="rules" let-parent="parent" let-gindex="index">
   <li>
     <div class="header">
       <cl-logical-operator
@@ -35,25 +29,21 @@
     </div>
 
     <ul>
-      <ng-container
-        *ngFor="let item of rules; let i = index; trackBy: trackByFn"
-      >
+      <ng-container *ngFor="let item of rules.controls; let i = index; trackBy: trackByFn">
         <ng-container
           *ngIf="isCondition(item)"
           [ngTemplateOutlet]="ruleitem"
           [ngTemplateOutletContext]="{
             group: group,
             item: item,
-            first: isFirstCondition(i, rules),
-            last: isLastCondition(i, rules),
+            first: isFirstCondition(i, rules.controls),
+            last: isLastCondition(i, rules.controls),
             index: i,
           }"
         />
       </ng-container>
 
-      <ng-container
-        *ngFor="let item of rules; let i = index; trackBy: trackByFn"
-      >
+      <ng-container *ngFor="let item of rules.controls; let i = index; trackBy: trackByFn">
         <ng-container
           *ngIf="isGroup(item)"
           [ngTemplateOutlet]="rulegroup"
@@ -69,22 +59,11 @@
   </li>
 </ng-template>
 
-<ng-template
-  #ruleitem
-  let-group="group"
-  let-item="item"
-  let-first="first"
-  let-last="last"
-  let-index="index"
->
+<ng-template #ruleitem let-group="group" let-item="item" let-first="first" let-last="last" let-index="index">
   <li>
     <div>
       <div class="item" [class.last]="last" [class.first]="first">
-        <cl-condition
-          [formGroup]="item"
-          [allFields]="fields"
-          (remove)="removeItem(index, group)"
-        />
+        <cl-condition [formGroup]="item" [allFields]="fields" (remove)="removeItem(index, group)" />
       </div>
     </div>
   </li>

@@ -1,21 +1,26 @@
-<input
-  #input
-  #selectTrigger="matAutocompleteTrigger"
-  matInput
-  placeholder="Item"
-  [disabled]="disabled"
-  [value]="inputValue"
-  [matAutocomplete]="select"
-  (blur)="blur(input.value)"
-  (keyup)="keyup(input.value)"
-/>
-
-<mat-autocomplete
-  #select="matAutocomplete"
-  [displayWith]="labelByValue"
-  (optionSelected)="optionSelected($event)"
->
-  <mat-option *ngFor="let item of fielteredOptions | async; trackBy: trackByFn" [value]="item.name">
-    <span [title]="item.label">{{ item.label }}</span>
-  </mat-option>
-</mat-autocomplete>
+<mat-form-field appearance="fill">
+  <input
+    #input
+    type="text"
+    matInput
+    [matAutocomplete]="auto"
+    [value]="inputValue"
+    (input)="keyup($event)"
+    (blur)="blur($event)"
+  />
+  <span matSuffix>
+    @if (inputValue) {
+    <mat-icon *ngIf="inputValue" (click)="clear()">clear</mat-icon>
+    }
+  </span>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="optionSelected($event)"
+  >
+    @for (item of fielteredOptions | async; track item) {
+    <mat-option [value]="item.name"
+      ><span [title]="item.label">{{ item.label }}</span>
+    </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

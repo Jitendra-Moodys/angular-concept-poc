@@ -1,18 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import {
   QueryExpression,
   Field,
   ExpressionChangeEvent,
-  LogicalOperator
+  LogicalOperator,
 } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 import { ClConditionComponent } from '../cl-condition/cl-condition.component';
 import { ClFieldSelectComponent } from '../cl-field-select/cl-field-select.component';
 import { ClLogicalOperatorComponent } from '../cl-logical-operator/cl-logical-operator.component';
+
 @Component({
   selector: 'cl-expression-builder',
   standalone: true,
@@ -21,15 +37,18 @@ import { ClLogicalOperatorComponent } from '../cl-logical-operator/cl-logical-op
     ReactiveFormsModule,
     ClConditionComponent,
     ClFieldSelectComponent,
-    ClLogicalOperatorComponent
+    ClLogicalOperatorComponent,
   ],
   templateUrl: './cl-expression-builder.component.html',
   styleUrl: './cl-expression-builder.component.scss',
-  providers: [ClExpressionService]
+  providers: [ClExpressionService],
 })
-export class ClExpressionBuilderComponent implements OnInit, OnChanges, OnDestroy {
+export class ClExpressionBuilderComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input() data!: QueryExpression;
   @Input() fields: Field[] = [];
+
   @Output() valuechange: EventEmitter<ExpressionChangeEvent> =
     new EventEmitter<ExpressionChangeEvent>();
 
@@ -42,7 +61,7 @@ export class ClExpressionBuilderComponent implements OnInit, OnChanges, OnDestro
 
   constructor(
     private expService: ClExpressionService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -85,8 +104,8 @@ export class ClExpressionBuilderComponent implements OnInit, OnChanges, OnDestro
     });
   }
 
-  extractRules(formGroup: FormGroup): AbstractControl[] {
-    return (formGroup.get('rules') as FormArray)?.controls || [];
+  extractRules(formGroup: FormGroup): FormArray {
+    return (formGroup.get('rules') as FormArray) || new FormArray([]);
   }
 
   isCondition(value: AbstractControl): boolean {
@@ -97,59 +116,32 @@ export class ClExpressionBuilderComponent implements OnInit, OnChanges, OnDestro
     return value.get('rules') != null;
   }
 
-  isFirstCondition(index: number, rules: FormArray): boolean {
-    let firstCondIndex = -1;
-
-    for (let i = 0; i < rules.length; i++) {
-      if (this.isCondition(rules.at(i))) {
-        firstCondIndex = i;
-        break;
-      }
-    }
-
+  isFirstCondition(index: number, rules: AbstractControl[]): boolean {
+    const firstCondIndex = rules.findIndex((control) =>
+      this.isCondition(control)
+    );
     return index === firstCondIndex;
   }
 
-  isLastCondition(index: number, rules: FormArray): boolean {
-    if (index >= rules.length - 1) {
-      return true;
-    }
-
-    let result = false;
-
-    for (let i = index + 1; i < rules.length; i++) {
-      result = this.isGroup(rules.at(i));
-      if (!result) {
-        break;
-      }
-    }
-
-    return result;
+  isLastCondition(index: number, rules: AbstractControl[]): boolean {
+    const lastCondIndex = rules
+      .slice()
+      .reverse()
+      .findIndex((control) => this.isCondition(control));
+    return index === rules.length - 1 - lastCondIndex;
   }
 
-  removeItem(index: number, parent: FormGroup): void {
-    if (!parent) {
-      return;
-    }
-
-    const rules = parent?.get('rules') as FormArray;
-
-    if (rules instanceof FormArray) {
-      rules.removeAt(index);
-    } else {
-      throw new Error(
-        'Method removeItem() failed. The \'rules\' control is either missing or not a FormArray.',
-      );
-    }
-  }
+ removeItem(index: number, parent: FormGroup): void {
+  (parent.get('rules') as FormArray).removeAt(index);
+}
 
   validateField(control: AbstractControl): boolean {
     const value = (control?.value as string) || '';
     return this.fields.some((field) => field.name === value);
   }
-  
+
   trackByFn(index: number): number {
-    return index; // or item.id if your items have unique ids
+    return index; 
   }
 
   private subscribeToForm(): void {
@@ -165,11 +157,13 @@ export class ClExpressionBuilderComponent implements OnInit, OnChanges, OnDestro
       console.log('Valid expression.');
       this.form = this.expService.toFormGroup(this.data);
     } else {
-      console.log('Unable to validate expression.');
-      this.form = this.fb.group({
-        operator: [LogicalOperator.And],
-        rules: this.fb.array([]),
-      });
+      if (!this.form) {
+        console.log('Unable to validate expression.');
+        this.form = this.fb.group({
+          operator: [LogicalOperator.And],
+          rules: this.fb.array([]),
+        });
+      }
     }
   }
 

@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, ValidatorFn, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  ValidatorFn,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 
 import { ConditionLabels } from '../constants/labels';
 import {
@@ -11,7 +18,7 @@ import {
   ConditionOperator,
   QueryExpression,
   ConditionExpression,
-  LogicalOperator
+  LogicalOperator,
 } from '../interfaces/cl-express-builder.inteface';
 type ConditionLabelsType = typeof ConditionLabels;
 
@@ -54,7 +61,7 @@ export class ClExpressionService {
     //let item: Field = null;
     const items = this._fields.getItems();
     const filteredItems = items.filter(
-      (item) => item.value.label.toLowerCase() === fieldLabel.toLowerCase(),
+      (item) => item.value.label.toLowerCase() === fieldLabel.toLowerCase()
     );
 
     if (filteredItems.length > 0) {
@@ -77,7 +84,8 @@ export class ClExpressionService {
   }
 
   fieldOptions(fieldName: string): Field | null {
-    if (this._fields) {
+    if (this._fields && this._fields.hasKey(fieldName)) {
+
       return this._fields.value(fieldName);
     }
 
@@ -160,8 +168,8 @@ export class ClExpressionService {
           this.createCondition(
             c.fieldName,
             c.condition,
-            c.value as string | number | Date | boolean,
-          ),
+            c.value as string | number | Date | boolean
+          )
         );
       } else if (this.isGroup(item)) {
         const g = item as QueryExpression;
@@ -177,38 +185,24 @@ export class ClExpressionService {
   }
 
   validate(expression: QueryExpression): boolean {
-    if (!expression) {
+    if (!expression || !expression.operator || !expression.rules) {
       return false;
     }
 
-    if (!expression.operator) {
-      return false;
-    }
-
-    if (!expression.rules) {
-      return false;
-    }
-
-    for (let i = 0; i < expression.rules.length; i++) {
-      const item = expression.rules[i];
-
+    const isValidRule = (
+      item: QueryExpression | ConditionExpression
+    ): boolean => {
       if (this.isCondition(item)) {
         const c = item as ConditionExpression;
-        if (!c.fieldName || !c.condition) {
-          return false;
-        }
+        return Boolean(c.fieldName && c.condition);
       } else if (this.isGroup(item)) {
         const g = item as QueryExpression;
-        if (!g.operator || !g.rules) {
-          return false;
-        }
-        this.validate(g);
-      } else {
-        return false;
+        return Boolean(g.operator && g.rules) && this.validate(g);
       }
-    }
+      return false;
+    };
 
-    return true;
+    return expression.rules.every(isValidRule);
   }
 
   validadorsByType(type: FieldType): ValidatorFn[] {
@@ -236,7 +230,7 @@ export class ClExpressionService {
   createCondition(
     fieldName?: string,
     condition?: ConditionOperator,
-    value?: string | number | Date | boolean,
+    value?: string | number | Date | boolean
   ): FormGroup {
     const requiredValidator = Validators.required.bind(this); // Bind this
     return this.fb.group({
@@ -252,10 +246,7 @@ export class ClExpressionService {
     }
 
     const item = value as ConditionExpression;
-    return (
-      Object.prototype.hasOwnProperty.call(item, 'fieldName') &&
-      Object.prototype.hasOwnProperty.call(item, 'condition')
-    );
+    return 'fieldName' in item && 'condition' in item;
   }
 
   isGroup(value: ConditionExpression | QueryExpression): boolean {
@@ -276,7 +267,7 @@ export class ClExpressionService {
 
   private initLabels(): void {
     this._labels = new KeyValueCollection<string>();
-  
+
     for (const prop in ConditionLabels) {
       if (Object.prototype.hasOwnProperty.call(ConditionLabels, prop)) {
         const element = ConditionLabels[prop as keyof ConditionLabelsType];
@@ -284,11 +275,10 @@ export class ClExpressionService {
       }
     }
   }
-  
 
   private initTypes(): void {
     this._types = new KeyValueCollection<FieldTypeOperators>();
-    const requiredValidator = Validators.required.bind(this); 
+    const requiredValidator = Validators.required.bind(this);
 
     this._types.add(FieldType.Boolean, {
       type: FieldType.Boolean,
@@ -298,10 +288,7 @@ export class ClExpressionService {
         ConditionOperator.Null,
         ConditionOperator.NotNull,
       ],
-      validators: [
-        requiredValidator,
-        Validators.pattern('^(true|false|1|0)$'),
-      ],
+      validators: [requiredValidator, Validators.pattern('^(true|false|1|0)$')],
     });
 
     this._types.add(FieldType.Date, {

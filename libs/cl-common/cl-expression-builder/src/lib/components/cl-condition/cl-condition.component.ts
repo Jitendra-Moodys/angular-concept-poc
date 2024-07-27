@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { Subscription } from 'rxjs';
 
 import {
@@ -40,7 +40,7 @@ import {
 } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 import { ClFieldSelectComponent } from '../cl-field-select/cl-field-select.component';
-import { provideNativeDateAdapter } from '@angular/material/core';
+
 
 @Component({
   selector: 'cl-condition',
@@ -63,9 +63,11 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 export class ClConditionComponent implements OnInit, OnDestroy {
   @Input() allFields!: Field[];
   @Input() formGroup!: FormGroup;
+
   @Output() remove: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('fieldSelector') fieldSelector!: ClFieldSelectComponent;
   @ViewChild('lookupinput', { read: MatAutocompleteTrigger })
+
   lookupInput!: MatAutocompleteTrigger;
   operators: OptionValue[] = [];
   fieldSubs!: Subscription;
@@ -105,6 +107,7 @@ export class ClConditionComponent implements OnInit, OnDestroy {
   get value(): FormControl {
     return this.formGroup.get('value') as FormControl;
   }
+  
   ngOnInit() {
     this.fieldSubs = this.field.valueChanges.subscribe((value: string) =>
       this.fieldChange(value)
