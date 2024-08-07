@@ -32,7 +32,7 @@ export interface Expression {
 }
 
 @Component({
-  selector: 'app-cl-home',
+  selector: 'cl-home',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -62,7 +62,9 @@ export class ClHomeComponent implements OnInit {
       rules: this.fb.array([])
     });
   }
-
+  get rules() {
+    return this.form.get('rules') as FormArray;
+  }
   ngOnInit(): void {
     this.form.valueChanges.pipe(takeUntil(this.destroy$$)).subscribe(() => {
       this.invalid = this.form.invalid;
@@ -70,10 +72,6 @@ export class ClHomeComponent implements OnInit {
     });
 
     this.subscribeToRuleChanges();
-  }
-
-  get rules() {
-    return this.form.get('rules') as FormArray;
   }
 
   createCondition(): FormGroup {
@@ -118,7 +116,9 @@ export class ClHomeComponent implements OnInit {
   isGroup(rule: AbstractControl): boolean {
     return rule.get('rules') !== null;
   }
-
+  submit() {
+    console.log(this.form.value);
+  }
   private getRulesFormArray(host: UntypedFormGroup): UntypedFormArray {
     const rules = host.get('rules');
     if (!rules || !(rules instanceof UntypedFormArray)) {
@@ -150,9 +150,5 @@ export class ClHomeComponent implements OnInit {
           console.log('value changed:', value);
         });
     });
-  }
-
-  submit() {
-    console.log(this.form.value);
   }
 }

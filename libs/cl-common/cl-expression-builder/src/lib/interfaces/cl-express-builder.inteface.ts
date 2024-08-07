@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { Type } from '@angular/core';
 import { ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';

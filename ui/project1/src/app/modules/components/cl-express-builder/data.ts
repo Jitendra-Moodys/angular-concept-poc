@@ -1,7 +1,6 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Person } from '../../../../../../../libs/cl-common/cl-expression-builder/src/public-api';
-
-
-
 
 export const PEOPLE_DATA: Person[] = [
   {
@@ -20,11 +19,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Boise',
           CountryRegion: 'United States',
-          Region: 'ID',
-        },
-      },
+          Region: 'ID'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'scottketchum',
@@ -42,11 +41,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Albuquerque',
           CountryRegion: 'United States',
-          Region: 'NM',
-        },
-      },
+          Region: 'NM'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'ronaldmundy',
@@ -64,11 +63,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Boise',
           CountryRegion: 'United States',
-          Region: 'ID',
-        },
-      },
+          Region: 'ID'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'javieralfred',
@@ -86,11 +85,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Portland',
           CountryRegion: 'United States',
-          Region: 'WA',
-        },
-      },
+          Region: 'WA'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'willieashmore',
@@ -103,7 +102,7 @@ export const PEOPLE_DATA: Person[] = [
     FavoriteFeature: 'Feature1',
     Features: [],
     AddressInfo: [],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'vincentcalabrese',
@@ -121,11 +120,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'clydeguess',
@@ -140,8 +139,8 @@ export const PEOPLE_DATA: Person[] = [
     AddressInfo: [],
     HomeAddress: {
       Address: null,
-      City: null,
-    },
+      City: null
+    }
   },
   {
     UserName: 'keithpinckney',
@@ -159,11 +158,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'marshallgaray',
@@ -181,11 +180,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'ryantheriault',
@@ -203,11 +202,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'elainestewart',
@@ -225,11 +224,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'salliesampson',
@@ -247,19 +246,19 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'San Francisco',
           CountryRegion: 'United States',
-          Region: 'CA',
-        },
+          Region: 'CA'
+        }
       },
       {
         Address: '89 Chiaroscuro Rd.',
         City: {
           Name: 'Portland',
           CountryRegion: 'United States',
-          Region: 'OR',
-        },
-      },
+          Region: 'OR'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'jonirosales',
@@ -277,11 +276,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'georginabarlow',
@@ -299,11 +298,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'angelhuffman',
@@ -321,11 +320,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'Butte',
           CountryRegion: 'United States',
-          Region: 'MT',
-        },
-      },
+          Region: 'MT'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'laurelosborn',
@@ -343,11 +342,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'San Francisco',
           CountryRegion: 'United States',
-          Region: 'CA',
-        },
-      },
+          Region: 'CA'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'sandyosborn',
@@ -365,11 +364,11 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'San Francisco',
           CountryRegion: 'United States',
-          Region: 'CA',
-        },
-      },
+          Region: 'CA'
+        }
+      }
     ],
-    HomeAddress: null,
+    HomeAddress: null
   },
   {
     UserName: 'ursulabright',
@@ -387,11 +386,10 @@ export const PEOPLE_DATA: Person[] = [
         City: {
           Name: 'San Francisco',
           CountryRegion: 'United States',
-          Region: 'CA',
-        },
-      },
+          Region: 'CA'
+        }
+      }
     ],
-    HomeAddress: null,
-  },
-  
+    HomeAddress: null
+  }
 ];

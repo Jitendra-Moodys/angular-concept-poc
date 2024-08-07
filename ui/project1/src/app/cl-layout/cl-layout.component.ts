@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { ClMainLayoutComponent } from '../../../../../libs/cl-common/cl-layout/src/public-api';
 
 @Component({
-  selector: 'app-cl-layout',
+  selector: 'cl-cl-layout',
   standalone: true,
   imports: [RouterOutlet, ClMainLayoutComponent],
   templateUrl: './cl-layout.component.html',

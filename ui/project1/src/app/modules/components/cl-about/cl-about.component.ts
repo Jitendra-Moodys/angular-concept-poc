@@ -1,20 +1,17 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatAutocompleteSelectedEvent,
-} from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Observable, startWith, map, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 interface Option {
   label: string;
   value: string;
 }
 @Component({
-  selector: 'app-cl-about',
+  selector: 'cl-about',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,9 +22,9 @@ interface Option {
     AsyncPipe,
     ReactiveFormsModule,
     FormsModule
-],
+  ],
   templateUrl: './cl-about.component.html',
-  styleUrl: './cl-about.component.scss',
+  styleUrl: './cl-about.component.scss'
 })
 export class ClAboutComponent implements OnInit {
   @ViewChild('input', { read: ElementRef }) private input!: ElementRef;
@@ -36,7 +33,7 @@ export class ClAboutComponent implements OnInit {
   lastSelectedValue = '';
   options: Option[] = [
     { label: '1', value: 'one' },
-    { label: '2', value: 'two' },
+    { label: '2', value: 'two' }
   ];
   filteredOptions!: Observable<Option[]>;
 
@@ -47,11 +44,7 @@ export class ClAboutComponent implements OnInit {
   filterOptions() {
     const filterValue = this.inputValue.toLowerCase();
     this.filteredOptions = of(this.options).pipe(
-      map((options) =>
-        options.filter((option) =>
-          option.label.toLowerCase().includes(filterValue)
-        )
-      )
+      map((options) => options.filter((option) => option.label.toLowerCase().includes(filterValue)))
     );
   }
 
@@ -59,9 +52,7 @@ export class ClAboutComponent implements OnInit {
     return index; // or item.id if your items have unique ids
   }
   optionSelected(event: MatAutocompleteSelectedEvent) {
-    const selectedOption = this.options.find(
-      (option) => option.value === event.option.value
-    );
+    const selectedOption = this.options.find((option) => option.value === event.option.value);
     if (selectedOption) {
       this.inputValue = selectedOption.label;
       const inputElement = this.input.nativeElement as HTMLInputElement;
@@ -78,14 +69,11 @@ export class ClAboutComponent implements OnInit {
     }
   }
   onAutocompleteClosed() {
-    this.inputValue = this.inputValue;
     console.log(this.inputValue);
     // Perform any action when autocomplete is closed
   }
   private _filter(value: string): Option[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter((option) =>
-      option.label.toLowerCase().includes(filterValue)
-    );
+    return this.options.filter((option) => option.label.toLowerCase().includes(filterValue));
   }
 }

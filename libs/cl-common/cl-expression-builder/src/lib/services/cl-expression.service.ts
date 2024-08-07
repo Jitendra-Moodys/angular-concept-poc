@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { Injectable } from '@angular/core';
 import {
   UntypedFormBuilder,
@@ -95,12 +96,12 @@ export class ClExpressionService {
     const typeInfo = this.types.value(type);
 
     if (typeInfo) {
-      typeInfo.operators.forEach((item) => {
+      for (const item of typeInfo.operators) {
         values.push({
           value: item,
           label: ConditionLabels[item]
         });
-      });
+      }
 
       this._typeOperators.add(type, values);
     }
@@ -139,9 +140,9 @@ export class ClExpressionService {
     this._fields = new KeyValueCollection<Field>();
 
     if (fields) {
-      fields.forEach((field) => {
+      for (const field of fields) {
         this._fields.add(field.name, field);
-      });
+      }
     }
   }
 
@@ -153,8 +154,8 @@ export class ClExpressionService {
     const group: UntypedFormGroup = this.createGroup(expression.operator);
     const rules = group.get('rules') as UntypedFormArray;
 
-    for (let i = 0; i < expression.rules.length; i++) {
-      const item = expression.rules[i];
+    for (let index = 0; index < expression.rules.length; index++) {
+      const item = expression.rules[index];
 
       if (this.isCondition(item)) {
         const c = item as ConditionExpression;
@@ -254,10 +255,10 @@ export class ClExpressionService {
   private initLabels(): void {
     this._labels = new KeyValueCollection<string>();
 
-    for (const prop in ConditionLabels) {
-      if (Object.prototype.hasOwnProperty.call(ConditionLabels, prop)) {
-        const element = ConditionLabels[prop as keyof ConditionLabelsType];
-        this._labels.add(prop, element);
+    for (const property in ConditionLabels) {
+      if (Object.prototype.hasOwnProperty.call(ConditionLabels, property)) {
+        const element = ConditionLabels[property as keyof ConditionLabelsType];
+        this._labels.add(property, element);
       }
     }
   }

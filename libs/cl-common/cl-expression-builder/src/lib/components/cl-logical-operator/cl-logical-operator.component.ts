@@ -6,7 +6,6 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { LogicalOperator } from '../../interfaces/cl-express-builder.inteface';
 
-
 @Component({
   selector: 'cl-logical-operator',
   standalone: true,
@@ -54,12 +53,12 @@ export class ClLogicalOperatorComponent implements ControlValueAccessor {
     this.operator = value || LogicalOperator.And;
   }
 
-  registerOnChange(fn: (value: LogicalOperator) => void): void {
-    this.onChange = fn;
+  registerOnChange(function_: (value: LogicalOperator) => void): void {
+    this.onChange = function_;
   }
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+  registerOnTouched(function_: () => void): void {
+    this.onTouched = function_;
   }
 
   setDisabledState?(isDisabled: boolean): void {

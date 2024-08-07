@@ -1,14 +1,6 @@
 <mat-form-field appearance="fill">
-  <input
-   #input
-    type="text"
-    matInput
-    [matAutocomplete]="auto"
-    [value]="inputValue"
-
-    
-  />
- <!-- <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+  <input #input type="text" matInput [matAutocomplete]="auto" [value]="inputValue" />
+  <!-- <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
     <mat-option
       *ngFor="let option of filteredOptions | async; trackBy: trackByFn"
       [value]="option.value"
@@ -18,12 +10,9 @@
   </mat-autocomplete>
 </mat-form-field> -->
 
-
-<mat-autocomplete #auto="matAutocomplete">
+  <mat-autocomplete #auto="matAutocomplete">
     @for (item of filteredOptions | async; track item) {
-        <mat-option [value]="item.label"
-          ><span [title]="item.label">{{ item.label }}</span>
-        </mat-option>
-        }
-  </mat-autocomplete> 
-  
+    <mat-option [value]="item.label"><span [title]="item.label">{{ item.label }}</span> </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

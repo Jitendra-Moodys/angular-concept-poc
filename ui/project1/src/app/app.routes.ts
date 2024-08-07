@@ -6,18 +6,18 @@ import { ClHomeComponent } from './modules/components/cl-home/cl-home.component'
 import { ClLayoutComponent } from './cl-layout/cl-layout.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: ClLayoutComponent,
-        children: [
-          { path: '', component: ClHomeComponent },
-          { path: 'about', component: ClAboutComponent },
-          { path: 'contact', component: ClContactComponent },
-          { path: 'express-builder', component: ClExpressBuilderComponent },
-        //   {
-        //     path: 'customer',
-        //     loadChildren: () => import('./customers/customers.module').then(m => m.CustomersModule)
-        //   }
-        ]
-      }
+  {
+    path: '',
+    component: ClLayoutComponent,
+    children: [
+      { path: '', component: ClHomeComponent },
+      { path: 'about', component: ClAboutComponent },
+      { path: 'contact', component: ClContactComponent },
+      { path: 'express-builder', component: ClExpressBuilderComponent }
+      //   {
+      //     path: 'customer',
+      //     loadChildren: () => import('./customers/customers.module').then(m => m.CustomersModule)
+      //   }
+    ]
+  }
 ];

@@ -10,17 +10,17 @@ import {
   tap,
   switchMap,
   map,
-  of,
+  of
 } from 'rxjs';
 
 import { PEOPLE_DATA } from './data';
 import { LookupService, Person } from '../../../../../../../libs/cl-common/cl-expression-builder/src/public-api';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SampleRemoteService implements OnDestroy, LookupService {
-  error?: (err: Error) => void;
+  error?: (error: Error) => void;
   private _data: BehaviorSubject<Person[]> = new BehaviorSubject<Person[]>([]);
   private _search: Subject<string> = new Subject();
   private _loading!: boolean;
@@ -43,7 +43,7 @@ export class SampleRemoteService implements OnDestroy, LookupService {
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => (this._loading = true)),
-        switchMap((value) => this.retrieveRemote(value)),
+        switchMap((value) => this.retrieveRemote(value))
       )
       .subscribe(
         (data) => {
@@ -51,10 +51,10 @@ export class SampleRemoteService implements OnDestroy, LookupService {
           this._data.next(data);
           this._loading = false;
         },
-        (err) => {
+        (error) => {
           this._loading = false;
-          this.emitError(err as Error);
-        },
+          this.emitError(error as Error);
+        }
       );
   }
 
@@ -73,19 +73,17 @@ export class SampleRemoteService implements OnDestroy, LookupService {
     return of(PEOPLE_DATA).pipe(
       map((people: Person[]) => {
         if (nameContains) {
-          return people.filter((person) =>
-            person.FirstName.includes(nameContains),
-          );
+          return people.filter((person) => person.FirstName.includes(nameContains));
         }
         console.log(people);
         return people;
-      }),
+      })
     );
   }
 
-  private emitError(err: Error): void {
+  private emitError(error: Error): void {
     if (this.error) {
-      this.error(err);
+      this.error(error);
     }
   }
 }

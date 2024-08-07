@@ -25,6 +25,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
+import { AsyncPipe } from '@angular/common';
 import {
   Field,
   OptionValue,
@@ -37,7 +38,6 @@ import {
 } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 import { ClFieldSelectComponent } from '../cl-field-select/cl-field-select.component';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cl-condition',
@@ -53,7 +53,7 @@ import { AsyncPipe } from '@angular/common';
     MatDatepickerModule,
     MatAutocompleteModule,
     AsyncPipe
-],
+  ],
   templateUrl: './cl-condition.component.html',
   styleUrl: './cl-condition.component.scss'
 })
@@ -118,10 +118,8 @@ export class ClConditionComponent implements OnInit, OnDestroy {
       this.operatorFilter(this.fieldOptions);
     }
 
-    if ((this.field && !this.field.value) || this.field.invalid) {
-      if (this.value) {
-        this.value.disable();
-      }
+    if (((this.field && !this.field.value) || this.field.invalid) && this.value) {
+      this.value.disable();
     }
 
     this.initLookup();
@@ -189,9 +187,9 @@ export class ClConditionComponent implements OnInit, OnDestroy {
     this.value.setValue('');
     if (fieldName && !field) {
       const inputElement = this.input.nativeElement as HTMLInputElement;
-      const tempValue = Object.assign({}, inputElement.value);
+      const temporaryValue = Object.assign({}, inputElement.value);
       this.field.setValue('', { emitEvent: false });
-      inputElement.value = tempValue;
+      inputElement.value = temporaryValue;
     }
     if (field) {
       const validators = this.expService.validadorsByType(field.type);
@@ -239,11 +237,10 @@ export class ClConditionComponent implements OnInit, OnDestroy {
     this.operators = [];
 
     if (fieldOptions) {
-      if (fieldOptions.values && fieldOptions.values.length > 0) {
-        this.operators = this.expService.optionSetOperators();
-      } else {
-        this.operators = this.expService.operatorsByType(fieldOptions.type);
-      }
+      this.operators =
+        fieldOptions.values && fieldOptions.values.length > 0
+          ? this.expService.optionSetOperators()
+          : this.expService.operatorsByType(fieldOptions.type);
     }
 
     if (this.operators.length > 0) {

@@ -30,7 +30,7 @@ import { ClLogicalOperatorComponent } from '../cl-logical-operator/cl-logical-op
     ClConditionComponent,
     ClFieldSelectComponent,
     ClLogicalOperatorComponent
-],
+  ],
   templateUrl: './cl-expression-builder.component.html',
   styleUrl: './cl-expression-builder.component.scss',
   providers: [ClExpressionService]
