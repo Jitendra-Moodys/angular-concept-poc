@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/node_modules/**", "**/dist/**", "**/*.spec.ts", "**/*.test.ts"],
-  "plugins": ["import", "jsdoc", "unicorn"],
+  "plugins": ["import", "jsdoc", "prettier", "unicorn", "unused-imports", "sonarjs", "security"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -18,8 +18,9 @@
         "plugin:import/errors",
         "plugin:import/warnings",
         "plugin:import/typescript",
-        // "plugin:jsdoc/recommended",
-        // "plugin:unicorn/recommended",
+        "plugin:jsdoc/recommended",
+        "plugin:unicorn/recommended",
+        "plugin:prettier/recommended",
         "prettier"
       ],
       "rules": {
@@ -68,7 +69,11 @@
           }
         ],
         "unicorn/prefer-query-selector": "off",
-        "unicorn/prefer-node-protocol": "off"
+        "unicorn/prefer-node-protocol": "off",
+        "unused-imports/no-unused-imports": "error",
+        "sonarjs/no-duplicate-string": "warn",
+        "sonarjs/cognitive-complexity": ["warn", 15],
+        "security/detect-object-injection": "off" // Disable if not applicable
       }
     },
     {
