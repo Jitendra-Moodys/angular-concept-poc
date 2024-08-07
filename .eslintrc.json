@@ -1,59 +1,88 @@
 {
-    "root": true,
-    "ignorePatterns": [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/*.spec.ts",
-      "**/*.test.ts"
-    ],
-    "overrides": [
-      {
-        "files": ["*.ts"],
-        "parserOptions": {
-          "project": ["tsconfig.json", "libs/cl-common/tsconfig.lib.json"],
-          "createDefaultProgram": true
-        },
-        "extends": [
-          "plugin:@angular-eslint/recommended",
-          "plugin:@angular-eslint/template/process-inline-templates",
-          "eslint:recommended",
-          "plugin:@typescript-eslint/recommended",
-          "plugin:@typescript-eslint/recommended-requiring-type-checking"
-        ],
-        "rules": {
-          "@typescript-eslint/member-ordering": "error",
-          "@typescript-eslint/no-unsafe-assignment": "error",
-          "@typescript-eslint/naming-convention": [
-            "off",
-            {
-              "selector": "variable",
-              "types": ["object"],
-              "format": ["PascalCase"],
-              "leadingUnderscore": "forbid"
-            }
-          ],
-          "@typescript-eslint/no-unused-vars": [
-            "error",
-            { "argsIgnorePattern": "^_" }
-          ],
-          "no-duplicate-imports": "error",
-          "quotes": ["error", "single"],
-          "semi": ["error", "always"]
-        }
+  "root": true,
+  "ignorePatterns": ["**/node_modules/**", "**/dist/**", "**/*.spec.ts", "**/*.test.ts"],
+  "plugins": ["import", "jsdoc", "unicorn"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json", "libs/cl-common/tsconfig.lib.json"],
+        "createDefaultProgram": true
       },
-      {
-        "files": ["*.html"],
-        "extends": ["plugin:@angular-eslint/template/recommended"],
-        "rules": {
-          "@angular-eslint/template/attributes-order": ["error"],
-          "@angular-eslint/template/prefer-self-closing-tags": ["error"],
-          "@angular-eslint/template/no-inline-styles": ["error"],
-          "@angular-eslint/template/no-duplicate-attributes": ["error"],
-          "@angular-eslint/template/no-interpolation-in-attributes": ["error"],
-          "@angular-eslint/template/prefer-ngui": ["off"],
-          "@angular-eslint/template/use-track-by-function": ["error"]
-        }
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
+        "plugin:jsdoc/recommended",
+        "plugin:unicorn/recommended",
+        "prettier"
+      ],
+      "rules": {
+        "@angular-eslint/component-selector": [
+          "off",
+          {
+            "type": "element",
+            "prefix": "ma | cl",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "off",
+          {
+            "type": "attribute",
+            "prefix": "ma | cl",
+            "style": "camelCase"
+          }
+        ],
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/naming-convention": [
+          "off",
+          {
+            "selector": "variable",
+            "types": ["object"],
+            "format": ["PascalCase"],
+            "leadingUnderscore": "forbid"
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "no-duplicate-imports": "error",
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "prettier/prettier": "error",
+        "import/no-unresolved": "off",
+        "import/order": ["off", { "groups": ["builtin", "external", "internal"] }],
+        "jsdoc/require-jsdoc": [
+          "off",
+          {
+            "require": {
+              "FunctionDeclaration": true,
+              "MethodDefinition": true,
+              "ClassDeclaration": true
+            }
+          }
+        ],
+        "unicorn/prefer-query-selector": "off",
+        "unicorn/prefer-node-protocol": "off"
       }
-    ]
-  }
-  
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:prettier/recommended"],
+      "rules": {
+        "@angular-eslint/template/attributes-order": ["error"],
+        "@angular-eslint/template/prefer-self-closing-tags": ["error"],
+        "@angular-eslint/template/no-inline-styles": ["error"],
+        "@angular-eslint/template/no-duplicate-attributes": ["error"],
+        "@angular-eslint/template/no-interpolation-in-attributes": ["error"],
+        "@angular-eslint/template/prefer-ngui": ["off"],
+        "@angular-eslint/template/use-track-by-function": ["error"]
+      }
+    }
+  ]
+}

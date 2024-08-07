@@ -94,10 +94,7 @@
                 "input": "ui/project1/public"
               }
             ],
-            "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
-              "ui/project1/src/styles.scss"
-            ],
+            "styles": ["@angular/material/prebuilt-themes/azure-blue.css", "ui/project1/src/styles.scss"],
             "scripts": []
           }
         }
@@ -220,10 +217,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "libs/cl-common/**/*.ts",
-              "libs/cl-common/**/*.html"
-            ]
+            "lintFilePatterns": ["libs/cl-common/**/*.ts", "libs/cl-common/**/*.html"]
           }
         }
       }
