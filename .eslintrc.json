@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/node_modules/**", "**/dist/**", "**/*.spec.ts", "**/*.test.ts"],
-  "plugins": ["import", "jsdoc", "prettier", "unicorn", "unused-imports", "sonarjs", "security"],
+  "plugins": ["import", "jsdoc", "prettier", "unicorn", "sonarjs", "security"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -25,28 +25,33 @@
       ],
       "rules": {
         "@angular-eslint/component-selector": [
-          "off",
+          "error",
           {
             "type": "element",
-            "prefix": "ma | cl",
+            "prefix": ["ma", "cl"],
             "style": "kebab-case"
           }
         ],
         "@angular-eslint/directive-selector": [
-          "off",
+          "error",
           {
             "type": "attribute",
-            "prefix": "ma | cl",
+            "prefix": ["ma", "cl"],
             "style": "camelCase"
           }
         ],
-        "@typescript-eslint/member-ordering": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/no-unsafe-assignment": "error",
         "@typescript-eslint/naming-convention": [
-          "off",
+          "error",
           {
-            "selector": "variable",
-            "types": ["object"],
+            "selector": ["variable", "function"],
+            "format": ["camelCase", "PascalCase"],
+            "leadingUnderscore": "forbid",
+            "trailingUnderscore": "forbid"
+          },
+          {
+            "selector": "typeLike",
             "format": ["PascalCase"],
             "leadingUnderscore": "forbid"
           }
@@ -57,7 +62,7 @@
         "semi": ["error", "always"],
         "prettier/prettier": "error",
         "import/no-unresolved": "off",
-        "import/order": ["off", { "groups": ["builtin", "external", "internal"] }],
+        "import/order": ["error", { "groups": ["builtin", "external", "internal"] }],
         "jsdoc/require-jsdoc": [
           "off",
           {
@@ -68,12 +73,12 @@
             }
           }
         ],
-        "unicorn/prefer-query-selector": "off",
-        "unicorn/prefer-node-protocol": "off",
+        "unicorn/prefer-query-selector": "error",
+        "unicorn/prefer-node-protocol": "error",
         "unused-imports/no-unused-imports": "error",
         "sonarjs/no-duplicate-string": "warn",
         "sonarjs/cognitive-complexity": ["warn", 15],
-        "security/detect-object-injection": "off" // Disable if not applicable
+        "security/detect-object-injection": "error"
       }
     },
     {
