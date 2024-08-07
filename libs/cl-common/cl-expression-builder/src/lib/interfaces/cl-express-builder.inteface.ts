@@ -38,7 +38,7 @@ export enum FieldType {
   Date = 'date',
   Lookup = 'lookup',
   Number = 'number',
-  Text = 'text',
+  Text = 'text'
 }
 
 export enum ConditionOperator {
@@ -50,7 +50,7 @@ export enum ConditionOperator {
   LessEqual = 'le',
   Contains = 'contains',
   Null = 'null',
-  NotNull = 'notnull',
+  NotNull = 'notnull'
 }
 
 export interface ExpressionChangeEvent {
@@ -60,7 +60,7 @@ export interface ExpressionChangeEvent {
 
 export enum LogicalOperator {
   And = 'and',
-  Or = 'or',
+  Or = 'or'
 }
 
 export interface Field {
@@ -81,7 +81,7 @@ export interface LookupService {
   data: Observable<Person[]>;
   loading: boolean;
 
-  error?: (err: Error) => void;
+  error?: (error: Error) => void;
   search: (value: string) => void;
 }
 
@@ -94,7 +94,7 @@ export interface FieldTypeOperators {
 export interface ConditionExpression {
   fieldName: string;
   condition: ConditionOperator;
-  value: string | number | boolean | null;
+  value: object;
 }
 
 export interface QueryExpression {
@@ -103,7 +103,7 @@ export interface QueryExpression {
 }
 
 export interface OptionValue {
-  value: string | number | boolean;
+  value: string;
   label: string;
 }
 
@@ -131,11 +131,10 @@ export class KeyValueCollection<T> {
   }
 
   hasKey(key: string): boolean {
-    return key in this.map; 
+    return key in this.map;
   }
 
   value(key: string): T {
-    
     return this.map[key];
   }
 }

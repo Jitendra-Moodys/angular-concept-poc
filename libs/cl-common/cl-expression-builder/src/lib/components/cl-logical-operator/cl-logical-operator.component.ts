@@ -5,12 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { LogicalOperator } from '../../interfaces/cl-express-builder.inteface';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'cl-logical-operator',
   standalone: true,
-  imports: [CommonModule, MatButtonToggleModule, MatIconModule, MatMenuModule],
+  imports: [MatButtonToggleModule, MatIconModule, MatMenuModule],
   templateUrl: './cl-logical-operator.component.html',
   styleUrl: './cl-logical-operator.component.scss',
   providers: [
@@ -30,8 +30,6 @@ export class ClLogicalOperatorComponent implements ControlValueAccessor {
   LogicalOperator = LogicalOperator;
   operator: LogicalOperator = LogicalOperator.And;
   disable!: boolean;
-
-  
 
   newCondition(): void {
     this.addCondition.emit();

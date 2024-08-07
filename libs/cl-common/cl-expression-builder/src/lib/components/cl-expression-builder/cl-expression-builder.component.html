@@ -29,32 +29,28 @@
     </div>
 
     <ul>
-      <ng-container *ngFor="let item of rules.controls; let i = index; trackBy: trackByFn">
-        <ng-container
-          *ngIf="isCondition(item)"
-          [ngTemplateOutlet]="ruleitem"
-          [ngTemplateOutletContext]="{
+      @for (item of rules.controls; track item; let i = $index) { @if (isCondition(item)) {
+      <ng-container
+        [ngTemplateOutlet]="ruleitem"
+        [ngTemplateOutletContext]="{
             group: group,
             item: item,
             first: isFirstCondition(i, rules.controls),
             last: isLastCondition(i, rules.controls),
             index: i,
           }"
-        />
-      </ng-container>
-
-      <ng-container *ngFor="let item of rules.controls; let i = index; trackBy: trackByFn">
-        <ng-container
-          *ngIf="isGroup(item)"
-          [ngTemplateOutlet]="rulegroup"
-          [ngTemplateOutletContext]="{
-            group: item,
-            rules: extractRules(item),
-            parent: group,
-            index: i,
-          }"
-        />
-      </ng-container>
+      />
+      } } @for (item of rules.controls; track item; let i = $index) { @if (isGroup(item)) {
+      <ng-container
+        [ngTemplateOutlet]="rulegroup"
+        [ngTemplateOutletContext]="{
+          group: item,
+          rules: extractRules(item),
+          parent: group,
+          index: i,
+        }"
+      />
+      } }
     </ul>
   </li>
 </ng-template>

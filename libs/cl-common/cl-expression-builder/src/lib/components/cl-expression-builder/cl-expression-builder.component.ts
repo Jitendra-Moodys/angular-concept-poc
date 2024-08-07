@@ -1,28 +1,19 @@
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
   ReactiveFormsModule,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import {
   QueryExpression,
   Field,
   ExpressionChangeEvent,
-  LogicalOperator,
+  LogicalOperator
 } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 import { ClConditionComponent } from '../cl-condition/cl-condition.component';
@@ -33,35 +24,33 @@ import { ClLogicalOperatorComponent } from '../cl-logical-operator/cl-logical-op
   selector: 'cl-expression-builder',
   standalone: true,
   imports: [
-    CommonModule,
+    NgTemplateOutlet,
+    AsyncPipe,
     ReactiveFormsModule,
     ClConditionComponent,
     ClFieldSelectComponent,
-    ClLogicalOperatorComponent,
-  ],
+    ClLogicalOperatorComponent
+],
   templateUrl: './cl-expression-builder.component.html',
   styleUrl: './cl-expression-builder.component.scss',
-  providers: [ClExpressionService],
+  providers: [ClExpressionService]
 })
-export class ClExpressionBuilderComponent
-  implements OnInit, OnChanges, OnDestroy
-{
+export class ClExpressionBuilderComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data!: QueryExpression;
   @Input() fields: Field[] = [];
 
-  @Output() valuechange: EventEmitter<ExpressionChangeEvent> =
-    new EventEmitter<ExpressionChangeEvent>();
+  @Output() valuechange: EventEmitter<ExpressionChangeEvent> = new EventEmitter<ExpressionChangeEvent>();
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   invalid = false;
   valid = true;
 
-  private formValueSubs!: Subscription;
+  private destroy$$ = new Subject<boolean>();
 
   constructor(
     private expService: ClExpressionService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit() {
@@ -72,9 +61,6 @@ export class ClExpressionBuilderComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
-      if (this.formValueSubs) {
-        this.formValueSubs.unsubscribe();
-      }
       this.initialize();
       this.subscribeToForm();
       this.emitChanges();
@@ -82,17 +68,16 @@ export class ClExpressionBuilderComponent
   }
 
   ngOnDestroy(): void {
-    if (this.formValueSubs) {
-      this.formValueSubs.unsubscribe();
-    }
+    this.destroy$$.next(true);
+    this.destroy$$.complete();
   }
 
-  addCondition(host: FormGroup): void {
+  addCondition(host: UntypedFormGroup): void {
     const rules = this.getRulesFormArray(host);
-    rules.push(this.expService.createCondition('', undefined, ''));
+    rules.push(this.expService.createCondition(''));
   }
 
-  addGroup(host: FormGroup): void {
+  addGroup(host: UntypedFormGroup): void {
     const rules = this.getRulesFormArray(host);
     rules.push(this.expService.createGroup(LogicalOperator.And));
   }
@@ -100,52 +85,43 @@ export class ClExpressionBuilderComponent
   emitChanges(): void {
     this.valuechange.emit({
       valid: this.form.valid,
-      expression: this.form.value as QueryExpression,
+      expression: this.form.value as QueryExpression
     });
   }
 
-  extractRules(formGroup: FormGroup): FormArray {
-    return (formGroup.get('rules') as FormArray) || new FormArray([]);
+  extractRules(formGroup: UntypedFormGroup): UntypedFormArray {
+    return formGroup.get('rules') as UntypedFormArray;
   }
 
   isCondition(value: AbstractControl): boolean {
-    return value.get('fieldName') != null;
+    return value.get('fieldName') != undefined;
   }
 
   isGroup(value: AbstractControl): boolean {
-    return value.get('rules') != null;
+    return value.get('rules') != undefined;
   }
 
   isFirstCondition(index: number, rules: AbstractControl[]): boolean {
-    const firstCondIndex = rules.findIndex((control) =>
-      this.isCondition(control)
-    );
+    const firstCondIndex = rules.findIndex((control) => this.isCondition(control));
     return index === firstCondIndex;
   }
 
   isLastCondition(index: number, rules: AbstractControl[]): boolean {
-    const lastCondIndex = rules
-      .slice()
-      .reverse()
-      .findIndex((control) => this.isCondition(control));
+    const lastCondIndex = [...rules].reverse().findIndex((control) => this.isCondition(control));
     return index === rules.length - 1 - lastCondIndex;
   }
 
- removeItem(index: number, parent: FormGroup): void {
-  (parent.get('rules') as FormArray).removeAt(index);
-}
+  removeItem(index: number, parent: UntypedFormGroup): void {
+    (parent.get('rules') as UntypedFormArray).removeAt(index);
+  }
 
   validateField(control: AbstractControl): boolean {
     const value = (control?.value as string) || '';
     return this.fields.some((field) => field.name === value);
   }
 
-  trackByFn(index: number): number {
-    return index; 
-  }
-
   private subscribeToForm(): void {
-    this.formValueSubs = this.form.valueChanges.subscribe(() => {
+    this.form.valueChanges.pipe(takeUntil(this.destroy$$)).subscribe(() => {
       this.valid = this.form.valid;
       this.invalid = this.form.invalid;
       this.emitChanges();
@@ -161,16 +137,16 @@ export class ClExpressionBuilderComponent
         console.log('Unable to validate expression.');
         this.form = this.fb.group({
           operator: [LogicalOperator.And],
-          rules: this.fb.array([]),
+          rules: this.fb.array([])
         });
       }
     }
   }
 
-  private getRulesFormArray(host: FormGroup): FormArray {
+  private getRulesFormArray(host: UntypedFormGroup): UntypedFormArray {
     const rules = host.get('rules');
-    if (!rules || !(rules instanceof FormArray)) {
-      throw new Error('Form control \'rules\' is not a FormArray.');
+    if (!rules || !(rules instanceof UntypedFormArray)) {
+      throw new Error('rules is not an instance of FormArray');
     }
     return rules;
   }

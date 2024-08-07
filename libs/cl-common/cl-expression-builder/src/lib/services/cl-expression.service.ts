@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  UntypedFormArray,
   ValidatorFn,
   Validators,
-  AbstractControl,
+  AbstractControl
 } from '@angular/forms';
 
 import { ConditionLabels } from '../constants/labels';
@@ -18,19 +18,18 @@ import {
   ConditionOperator,
   QueryExpression,
   ConditionExpression,
-  LogicalOperator,
+  LogicalOperator
 } from '../interfaces/cl-express-builder.inteface';
 type ConditionLabelsType = typeof ConditionLabels;
 
 @Injectable()
 export class ClExpressionService {
-  private _typeOperators: KeyValueCollection<OptionValue[]> =
-    new KeyValueCollection<OptionValue[]>();
+  private _typeOperators: KeyValueCollection<OptionValue[]> = new KeyValueCollection<OptionValue[]>();
   private _types!: KeyValueCollection<FieldTypeOperators>;
   private _fields!: KeyValueCollection<Field>;
   private _labels!: KeyValueCollection<string>;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
   get fields(): KeyValueCollection<Field> {
     return this._fields;
   }
@@ -57,12 +56,8 @@ export class ClExpressionService {
     if (!this._fields || !fieldLabel) {
       return null;
     }
-
-    //let item: Field = null;
     const items = this._fields.getItems();
-    const filteredItems = items.filter(
-      (item) => item.value.label.toLowerCase() === fieldLabel.toLowerCase()
-    );
+    const filteredItems = items.filter((item) => item.value.label.toLowerCase() === fieldLabel.toLowerCase());
 
     if (filteredItems.length > 0) {
       return filteredItems[0].value;
@@ -85,7 +80,6 @@ export class ClExpressionService {
 
   fieldOptions(fieldName: string): Field | null {
     if (this._fields && this._fields.hasKey(fieldName)) {
-
       return this._fields.value(fieldName);
     }
 
@@ -104,7 +98,7 @@ export class ClExpressionService {
       typeInfo.operators.forEach((item) => {
         values.push({
           value: item,
-          label: ConditionLabels[item],
+          label: ConditionLabels[item]
         });
       });
 
@@ -118,24 +112,24 @@ export class ClExpressionService {
     const values: OptionValue[] = [
       {
         value: ConditionOperator.Equals,
-        label: ConditionLabels[ConditionOperator.Equals],
+        label: ConditionLabels[ConditionOperator.Equals]
       },
       {
         value: ConditionOperator.NotEquals,
-        label: ConditionLabels[ConditionOperator.NotEquals],
+        label: ConditionLabels[ConditionOperator.NotEquals]
       },
       {
         value: ConditionOperator.Contains,
-        label: ConditionLabels[ConditionOperator.Contains],
+        label: ConditionLabels[ConditionOperator.Contains]
       },
       {
         value: ConditionOperator.Null,
-        label: ConditionLabels[ConditionOperator.Null],
+        label: ConditionLabels[ConditionOperator.Null]
       },
       {
         value: ConditionOperator.NotNull,
-        label: ConditionLabels[ConditionOperator.NotNull],
-      },
+        label: ConditionLabels[ConditionOperator.NotNull]
+      }
     ];
 
     return values;
@@ -151,26 +145,20 @@ export class ClExpressionService {
     }
   }
 
-  toFormGroup(expression: QueryExpression): FormGroup {
+  toFormGroup(expression: QueryExpression): UntypedFormGroup {
     if (!expression) {
-      return new FormGroup({});
+      return new UntypedFormGroup({});
     }
 
-    const group: FormGroup = this.createGroup(expression.operator);
-    const rules = group.get('rules') as FormArray;
+    const group: UntypedFormGroup = this.createGroup(expression.operator);
+    const rules = group.get('rules') as UntypedFormArray;
 
     for (let i = 0; i < expression.rules.length; i++) {
       const item = expression.rules[i];
 
       if (this.isCondition(item)) {
         const c = item as ConditionExpression;
-        rules.push(
-          this.createCondition(
-            c.fieldName,
-            c.condition,
-            c.value as string | number | Date | boolean
-          )
-        );
+        rules.push(this.createCondition(c.fieldName, c.condition, c.value as string | number | Date | boolean));
       } else if (this.isGroup(item)) {
         const g = item as QueryExpression;
         rules.push(this.toFormGroup(g));
@@ -189,9 +177,7 @@ export class ClExpressionService {
       return false;
     }
 
-    const isValidRule = (
-      item: QueryExpression | ConditionExpression
-    ): boolean => {
+    const isValidRule = (item: QueryExpression | ConditionExpression): boolean => {
       if (this.isCondition(item)) {
         const c = item as ConditionExpression;
         return Boolean(c.fieldName && c.condition);
@@ -220,10 +206,10 @@ export class ClExpressionService {
     return validators;
   }
 
-  createGroup(operator: LogicalOperator): FormGroup {
+  createGroup(operator: LogicalOperator): UntypedFormGroup {
     return this.fb.group({
       operator: [operator],
-      rules: this.fb.array([]),
+      rules: this.fb.array([])
     });
   }
 
@@ -231,12 +217,12 @@ export class ClExpressionService {
     fieldName?: string,
     condition?: ConditionOperator,
     value?: string | number | Date | boolean
-  ): FormGroup {
-    const requiredValidator = Validators.required.bind(this); // Bind this
+  ): UntypedFormGroup {
+    const requiredValidator = Validators.required.bind(this);
     return this.fb.group({
       fieldName: [fieldName, [requiredValidator, this.validateField]],
       condition: [{ value: condition, disabled: true }, [requiredValidator]],
-      value: [value, [requiredValidator]],
+      value: [value, [requiredValidator]]
     });
   }
 
@@ -286,9 +272,9 @@ export class ClExpressionService {
         ConditionOperator.Equals,
         ConditionOperator.NotEquals,
         ConditionOperator.Null,
-        ConditionOperator.NotNull,
+        ConditionOperator.NotNull
       ],
-      validators: [requiredValidator, Validators.pattern('^(true|false|1|0)$')],
+      validators: [requiredValidator, Validators.pattern('^(true|false|1|0)$')]
     });
 
     this._types.add(FieldType.Date, {
@@ -301,9 +287,9 @@ export class ClExpressionService {
         ConditionOperator.LessThan,
         ConditionOperator.NotEquals,
         ConditionOperator.Null,
-        ConditionOperator.NotNull,
+        ConditionOperator.NotNull
       ],
-      validators: [requiredValidator],
+      validators: [requiredValidator]
     });
 
     this._types.add(FieldType.Lookup, {
@@ -312,9 +298,9 @@ export class ClExpressionService {
         ConditionOperator.Equals,
         ConditionOperator.NotEquals,
         ConditionOperator.Null,
-        ConditionOperator.NotNull,
+        ConditionOperator.NotNull
       ],
-      validators: [requiredValidator],
+      validators: [requiredValidator]
     });
 
     this._types.add(FieldType.Number, {
@@ -327,12 +313,9 @@ export class ClExpressionService {
         ConditionOperator.LessThan,
         ConditionOperator.NotEquals,
         ConditionOperator.Null,
-        ConditionOperator.NotNull,
+        ConditionOperator.NotNull
       ],
-      validators: [
-        requiredValidator,
-        Validators.pattern('^((-?)([0-9]*)|(-?)(([0-9]*).([0-9]*)))$'),
-      ],
+      validators: [requiredValidator, Validators.pattern('^((-?)([0-9]*)|(-?)(([0-9]*).([0-9]*)))$')]
     });
 
     this._types.add(FieldType.Text, {
@@ -342,9 +325,9 @@ export class ClExpressionService {
         ConditionOperator.Equals,
         ConditionOperator.NotEquals,
         ConditionOperator.Null,
-        ConditionOperator.NotNull,
+        ConditionOperator.NotNull
       ],
-      validators: [requiredValidator],
+      validators: [requiredValidator]
     });
   }
 }

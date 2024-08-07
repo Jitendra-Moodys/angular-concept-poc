@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe, CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -22,11 +22,10 @@ interface Option {
     MatAutocompleteModule,
     MatIconModule,
     MatFormFieldModule,
-    NgIf,
     AsyncPipe,
     ReactiveFormsModule,
-    FormsModule,
-  ],
+    FormsModule
+],
   templateUrl: './cl-about.component.html',
   styleUrl: './cl-about.component.scss',
 })

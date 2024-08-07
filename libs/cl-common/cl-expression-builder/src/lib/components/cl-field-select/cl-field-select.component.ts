@@ -7,15 +7,15 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
+  MatAutocompleteTrigger
 } from '@angular/material/autocomplete';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,31 +25,21 @@ import { BehaviorSubject, Subject, Subscription, debounceTime } from 'rxjs';
 import { Field } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 
-
 @Component({
   selector: 'cl-field-select',
   standalone: true,
-  imports: [
-    MatInputModule,
-    MatAutocompleteModule,
-    MatIconModule,
-    MatFormFieldModule,
-    NgIf,
-    AsyncPipe,
-  ],
+  imports: [MatInputModule, MatAutocompleteModule, MatIconModule, MatFormFieldModule, AsyncPipe],
   templateUrl: './cl-field-select.component.html',
   styleUrls: ['./cl-field-select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ClFieldSelectComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
-export class ClFieldSelectComponent
-  implements OnInit, OnDestroy, ControlValueAccessor
-{
+export class ClFieldSelectComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() allFields!: Field[];
   @Output() fieldSelected = new EventEmitter<string>();
 
@@ -67,11 +57,9 @@ export class ClFieldSelectComponent
   ngOnInit() {
     this.fielteredOptions.next(this.allFields);
 
-    this.inputValueSubs = this.inputValueChange
-      .pipe(debounceTime(150))
-      .subscribe((data) => {
-        this.filterOptions(data);
-      });
+    this.inputValueSubs = this.inputValueChange.pipe(debounceTime(150)).subscribe((data) => {
+      this.filterOptions(data);
+    });
   }
 
   ngOnDestroy() {
@@ -82,9 +70,7 @@ export class ClFieldSelectComponent
 
   filterOptions(contains: string): void {
     if (contains) {
-      const values = this.allFields.filter(
-        (item) => item.label.toLowerCase().indexOf(contains.toLowerCase()) >= 0
-      );
+      const values = this.allFields.filter((item) => item.label.toLowerCase().includes(contains.toLowerCase()));
       this.fielteredOptions.next(values);
     } else {
       this.fielteredOptions.next(this.allFields);
@@ -134,7 +120,10 @@ export class ClFieldSelectComponent
     this.writeValue('');
     this.onChange('');
   }
-
+  public displayContactFn(contact?: string): string | undefined {
+    console.log('displayContactFn', contact);
+    return '';
+  }
   /* ControlValueAccessor implementation */
 
   writeValue(value: string): void {
@@ -148,12 +137,12 @@ export class ClFieldSelectComponent
     }
   }
 
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
+  registerOnChange(function_: (value: string) => void): void {
+    this.onChange = function_;
   }
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+  registerOnTouched(function_: () => void): void {
+    this.onTouched = function_;
   }
 
   setDisabledState?(isDisabled: boolean): void {

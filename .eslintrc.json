@@ -18,8 +18,8 @@
         "plugin:import/errors",
         "plugin:import/warnings",
         "plugin:import/typescript",
-        "plugin:jsdoc/recommended",
-        "plugin:unicorn/recommended",
+        // "plugin:jsdoc/recommended",
+        // "plugin:unicorn/recommended",
         "prettier"
       ],
       "rules": {

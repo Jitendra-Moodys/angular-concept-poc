@@ -1,32 +1,29 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Injector,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
-  FormGroup,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormControl,
   ValidatorFn,
   AbstractControl,
-  ReactiveFormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
-import {
-  MatAutocompleteTrigger,
-  MatAutocompleteModule,
-} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import {
   Field,
@@ -36,18 +33,17 @@ import {
   FieldType,
   LookupService,
   LookupValidatorError,
-  Person,
+  Person
 } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 import { ClFieldSelectComponent } from '../cl-field-select/cl-field-select.component';
-
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cl-condition',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     ClFieldSelectComponent,
     MatIconModule,
@@ -56,33 +52,32 @@ import { ClFieldSelectComponent } from '../cl-field-select/cl-field-select.compo
     MatSelectModule,
     MatDatepickerModule,
     MatAutocompleteModule,
-  ],
+    AsyncPipe
+],
   templateUrl: './cl-condition.component.html',
-  styleUrl: './cl-condition.component.scss',
+  styleUrl: './cl-condition.component.scss'
 })
 export class ClConditionComponent implements OnInit, OnDestroy {
   @Input() allFields!: Field[];
-  @Input() formGroup!: FormGroup;
+  @Input() formGroup!: UntypedFormGroup;
 
   @Output() remove: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('fieldSelector') fieldSelector!: ClFieldSelectComponent;
-  @ViewChild('lookupinput', { read: MatAutocompleteTrigger })
-
-  lookupInput!: MatAutocompleteTrigger;
+  @ViewChild('input', { read: ElementRef }) private input!: ElementRef;
   operators: OptionValue[] = [];
+  inputValue = '';
   fieldSubs!: Subscription;
   valueSubs!: Subscription;
   conditionSubs!: Subscription;
   lookupService: LookupService | null = null;
-
+  fielteredOptions = new BehaviorSubject<Field[]>([]);
   constructor(
     private expService: ClExpressionService,
     private injector: Injector
   ) {
     this.lookupDisplay = this.lookupDisplay.bind(this);
   }
-  get field(): FormControl {
-    return this.formGroup.get('fieldName') as FormControl;
+  get field(): UntypedFormControl {
+    return this.formGroup.get('fieldName') as UntypedFormControl;
   }
 
   get fieldName(): string {
@@ -100,26 +95,24 @@ export class ClConditionComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  get condition(): FormControl {
-    return this.formGroup.get('condition') as FormControl;
+  get condition(): UntypedFormControl {
+    return this.formGroup.get('condition') as UntypedFormControl;
   }
 
-  get value(): FormControl {
-    return this.formGroup.get('value') as FormControl;
+  get value(): UntypedFormControl {
+    return this.formGroup.get('value') as UntypedFormControl;
   }
-  
+
   ngOnInit() {
-    this.fieldSubs = this.field.valueChanges.subscribe((value: string) =>
-      this.fieldChange(value)
-    );
+    this.fielteredOptions.next(this.allFields);
+
+    this.fieldSubs = this.field.valueChanges.subscribe((value: string) => this.fieldChange(value));
 
     this.valueSubs = this.value.valueChanges.subscribe((value) =>
       this.valueChange(value as string | Record<string, string | number>)
     );
 
-    this.conditionSubs = this.condition.valueChanges.subscribe(
-      (value: string) => this.conditionChange(value)
-    );
+    this.conditionSubs = this.condition.valueChanges.subscribe((value: string) => this.conditionChange(value));
 
     if (this.fieldOptions) {
       this.operatorFilter(this.fieldOptions);
@@ -139,6 +132,35 @@ export class ClConditionComponent implements OnInit, OnDestroy {
     if (this.valueSubs) this.valueSubs.unsubscribe();
     if (this.conditionSubs) this.conditionSubs.unsubscribe();
   }
+  filterOptions(contains: string): void {
+    if (contains) {
+      const values = this.allFields.filter((item) => item.label.toLowerCase().includes(contains.toLowerCase()));
+      this.fielteredOptions.next(values);
+    } else {
+      this.fielteredOptions.next(this.allFields);
+    }
+  }
+  optionSelected(e: string): void {
+    const selectedValue = e;
+    this.setFromName(selectedValue);
+    //this.fieldSelected.emit(selectedValue);
+  }
+  setFromName(fieldName: string): void {
+    const option = this.expService.fieldOptions(fieldName);
+    if (option) {
+      this.inputValue = option.label;
+      const inputElement = this.input.nativeElement as HTMLInputElement;
+      inputElement.value = this.inputValue;
+    }
+  }
+  blur(event: FocusEvent): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.filterOptions(inputElement.value);
+  }
+  clear(): void {
+    this.filterOptions('');
+    this.field.setValue('');
+  }
 
   clearLookup(): void {
     if (this.value) {
@@ -151,10 +173,7 @@ export class ClConditionComponent implements OnInit, OnDestroy {
   }
 
   conditionChange(condition: string): void {
-    if (
-      condition === ConditionOperator.NotNull.toString() ||
-      condition === ConditionOperator.Null.toString()
-    ) {
+    if (condition === ConditionOperator.NotNull.toString() || condition === ConditionOperator.Null.toString()) {
       this.value.setValue('');
       this.value.disable();
     } else {
@@ -164,16 +183,20 @@ export class ClConditionComponent implements OnInit, OnDestroy {
 
   fieldChange(fieldName: string): void {
     const field = this.expService.fieldOptions(fieldName);
-
+    this.optionSelected(fieldName);
+    this.filterOptions(fieldName);
     this.condition.setValue('');
     this.value.setValue('');
-
+    if (fieldName && !field) {
+      const inputElement = this.input.nativeElement as HTMLInputElement;
+      const tempValue = Object.assign({}, inputElement.value);
+      this.field.setValue('', { emitEvent: false });
+      inputElement.value = tempValue;
+    }
     if (field) {
       const validators = this.expService.validadorsByType(field.type);
       if (field.type === FieldType.Lookup && field.lookup) {
-        validators.push(
-          this.lookupValidator(field.lookup.textField, field.lookup.valueField)
-        );
+        validators.push(this.lookupValidator(field.lookup.textField, field.lookup.valueField));
       }
       this.value.setValidators(validators);
     } else {
@@ -195,11 +218,7 @@ export class ClConditionComponent implements OnInit, OnDestroy {
   }
 
   initLookup(): void {
-    if (
-      this.fieldOptions &&
-      this.fieldOptions.lookup &&
-      this.fieldOptions.lookup.service
-    ) {
+    if (this.fieldOptions && this.fieldOptions.lookup && this.fieldOptions.lookup.service) {
       this.lookupService = this.injector.get(this.fieldOptions.lookup.service);
       this.lookupService.search('');
     } else {
@@ -246,8 +265,8 @@ export class ClConditionComponent implements OnInit, OnDestroy {
       ) {
         return {
           LookupInvalidOption: {
-            value: control.value as string | Record<string, string | number>,
-          },
+            value: control.value as string | Record<string, string | number>
+          }
         };
       }
 
@@ -257,7 +276,7 @@ export class ClConditionComponent implements OnInit, OnDestroy {
 
   operatorDisplayFn(operator: ConditionOperator): string {
     let name: string = '';
-    const result = this.operators.filter((item) => item.value === operator);
+    const result = this.operators.filter((item) => item.value === operator.toString());
 
     if (result && result.length > 0) {
       name = result[0].label;
@@ -290,10 +309,7 @@ export class ClConditionComponent implements OnInit, OnDestroy {
     if (this.fieldOptions) {
       if (this.fieldOptions.values && this.fieldOptions.values.length > 0) {
         name = 'options';
-      } else if (
-        this.fieldOptions.type &&
-        this.fieldOptions.type === FieldType.Lookup
-      ) {
+      } else if (this.fieldOptions.type && this.fieldOptions.type === FieldType.Lookup) {
         name = 'lookup';
       } else {
         name = this.fieldOptions.type;

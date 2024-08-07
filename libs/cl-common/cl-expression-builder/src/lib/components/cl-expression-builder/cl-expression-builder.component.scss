@@ -2,32 +2,33 @@ $border-color: #e0e0e0;
 $gap: 5px;
 $border-radius: 5px;
 
-div.header, div.item {
+div.header,
+div.item {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;  
+  padding: 0;
 }
 
 div.header {
-  padding-top: $gap;  
+  padding-top: $gap;
 }
 
 div.item {
   padding-left: 10px;
   border-left: 1px solid $border-color;
-  border-right: 1px solid $border-color; 
+  border-right: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
 }
 
 div.item.first {
   border-top: 1px solid $border-color;
   border-top-left-radius: $border-radius;
-  border-top-right-radius: $border-radius;  
+  border-top-right-radius: $border-radius;
 }
 
 div.item.last {
   border-bottom-left-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;  
+  border-bottom-right-radius: $border-radius;
 }
 
 li:first-child > div:first-child {
@@ -50,12 +51,12 @@ li {
   border-left: 1px solid $border-color;
   margin-left: 1em;
 }
-li > div {  
+li > div {
   padding-left: 1em;
   position: relative;
 }
 li > div::before {
-  content:'';
+  content: '';
   position: absolute;
   top: 0;
   left: -1px;
@@ -70,4 +71,5 @@ ul > li:last-child {
 }
 
 /* Tree Lines Ends */
+
 

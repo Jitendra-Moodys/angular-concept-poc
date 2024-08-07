@@ -1,0 +1,144 @@
+$primary-color: #4caf50;
+$secondary-color: #f1f1f1;
+$focus-color: #81c784;
+$hover-color: #66bb6a;
+$text-color: #333;
+$border-color: #e0e0e0;
+$border-radius: 5px;
+$gap: 5px;
+$padding: 5px;
+$transition-duration: 0.3s;
+
+.form-control {
+  width: 150px;
+  padding: $gap;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  color: $text-color;
+  transition:
+    border-color $transition-duration,
+    box-shadow $transition-duration;
+
+  &:focus {
+    border-color: $focus-color;
+    box-shadow: 0 0 5px rgba($focus-color, 0.5);
+    outline: none;
+  }
+}
+
+select.form-control {
+  background-color: $secondary-color;
+  appearance: none;
+  padding-right: 2em;
+  background-position: right $gap center;
+  background-repeat: no-repeat;
+  background-size: 1em;
+}
+
+button {
+  background-color: $primary-color;
+  color: white;
+  padding: $gap;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition:
+    background-color $transition-duration,
+    box-shadow $transition-duration;
+
+  &:hover {
+    background-color: $hover-color;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba($focus-color, 0.5);
+  }
+
+  &.remove-btn {
+    background-color: #e57373;
+
+    &:hover {
+      background-color: #ef5350;
+    }
+  }
+}
+
+div.header,
+div.item {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+div.header {
+  padding: $padding;
+}
+
+div.item {
+  padding-left: 10px;
+  border-left: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+}
+
+div.item.first {
+  border-top: 1px solid $border-color;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}
+
+div.item.last {
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+
+li:first-child > div:first-child {
+  padding: $gap;
+}
+.condition-item {
+  display: flex;
+  gap: $gap;
+  padding: $gap;
+}
+.form-header {
+  display: flex;
+  gap: $gap;
+}
+/* 
+  Tree Lines Start 
+  Thanks to: https://stackoverflow.com/a/14424029
+*/
+
+ul {
+  padding: 0 0 0 10px;
+  margin: 0;
+  list-style-type: none;
+  position: relative;
+}
+li {
+  list-style-type: none;
+  border-left: 1px solid $border-color;
+  margin-left: 1em;
+}
+li > div {
+  padding: 1em;
+  position: relative;
+}
+li > div::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -1px;
+  bottom: 50%;
+  width: 0.75em;
+  border: 1px solid $border-color;
+  border-top: 0 none transparent;
+  border-right: 0 none transparent;
+}
+ul > li:last-child {
+  border-left: 1px solid transparent;
+}
+
+/* Tree Lines Ends */
