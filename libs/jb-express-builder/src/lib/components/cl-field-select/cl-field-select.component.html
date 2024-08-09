@@ -1,0 +1,21 @@
+<mat-form-field appearance="fill">
+  <input
+    #input
+    type="text"
+    matInput
+    [matAutocomplete]="auto"
+    [value]="inputValue"
+    (input)="keyup($event)"
+    (blur)="blur($event)"
+  />
+  <span matSuffix>
+    @if (inputValue) { @if (inputValue) {
+    <mat-icon (click)="clear()">clear</mat-icon>
+    } }
+  </span>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+    @for (item of fielteredOptions | async; track item) {
+    <mat-option [value]="item.name"><span [title]="item.label">{{ item.label }}</span> </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

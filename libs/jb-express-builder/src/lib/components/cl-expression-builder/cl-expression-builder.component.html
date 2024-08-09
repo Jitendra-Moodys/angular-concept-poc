@@ -1,0 +1,66 @@
+<form [formGroup]="form">
+  <div class="tree">
+    <ul>
+      <ng-container
+        *ngTemplateOutlet="
+          rulegroup;
+          context: {
+            group: form,
+            parent: null,
+            rules: extractRules(form),
+            index: 0,
+          }
+        "
+      />
+    </ul>
+  </div>
+</form>
+
+<ng-template #rulegroup let-group="group" let-rules="rules" let-parent="parent" let-gindex="index">
+  <li>
+    <div class="header">
+      <cl-logical-operator
+        [formControl]="group.get('operator')"
+        [hideRemove]="parent === null"
+        (addCondition)="addCondition(group)"
+        (addGroup)="addGroup(group)"
+        (remove)="removeItem(gindex, parent)"
+      />
+    </div>
+
+    <ul>
+      @for (item of rules.controls; track item; let i = $index) { @if (isCondition(item)) {
+      <ng-container
+        [ngTemplateOutlet]="ruleitem"
+        [ngTemplateOutletContext]="{
+            group: group,
+            item: item,
+            first: isFirstCondition(i, rules.controls),
+            last: isLastCondition(i, rules.controls),
+            index: i,
+          }"
+      />
+      } } @for (item of rules.controls; track item; let i = $index) { @if (isGroup(item)) {
+      <ng-container
+        [ngTemplateOutlet]="rulegroup"
+        [ngTemplateOutletContext]="{
+          group: item,
+          rules: extractRules(item),
+          parent: group,
+          index: i,
+        }"
+      />
+      } }
+    </ul>
+  </li>
+</ng-template>
+
+<ng-template #ruleitem let-group="group" let-item="item" let-first="first" let-last="last" let-index="index">
+  <li>
+    <div>
+      <div class="item" [class.last]="last" [class.first]="first">
+        <cl-condition [formGroup]="item" [allFields]="fields" (remove)="removeItem(index, group)" />
+      </div>
+    </div>
+  </li>
+</ng-template>
