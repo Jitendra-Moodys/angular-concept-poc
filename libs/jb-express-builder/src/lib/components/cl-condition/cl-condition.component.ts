@@ -16,15 +16,9 @@ import {
   AbstractControl,
   ReactiveFormsModule
 } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-
 import { AsyncPipe } from '@angular/common';
 import {
   Field,
@@ -38,20 +32,16 @@ import {
 } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 import { ClFieldSelectComponent } from '../cl-field-select/cl-field-select.component';
+import { MaterialModule } from '@jitu-ui/shared';
 
 @Component({
-  selector: 'cl-condition',
+  selector: 'lib-condition',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [
     ReactiveFormsModule,
     ClFieldSelectComponent,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatAutocompleteModule,
+    MaterialModule,
     AsyncPipe
   ],
   templateUrl: './cl-condition.component.html',

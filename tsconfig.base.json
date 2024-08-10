@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@jitu-ui/jb-express-builder": ["libs/jb-express-builder/src/index.ts"],
-      "@jitu-ui/libs": ["libs/jb-layout/src/index.ts"]
+      "@jitu-ui/libs": ["libs/jb-layout/src/index.ts"],
+      "@jitu-ui/shared": ["libs/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

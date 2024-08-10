@@ -19,7 +19,7 @@
 <ng-template #rulegroup let-group="group" let-rules="rules" let-parent="parent" let-gindex="index">
   <li>
     <div class="header">
-      <cl-logical-operator
+      <lib-logical-operator
         [formControl]="group.get('operator')"
         [hideRemove]="parent === null"
         (addCondition)="addCondition(group)"
@@ -59,7 +59,7 @@
   <li>
     <div>
       <div class="item" [class.last]="last" [class.first]="first">
-        <cl-condition [formGroup]="item" [allFields]="fields" (remove)="removeItem(index, group)" />
+        <lib-condition [formGroup]="item" [allFields]="fields" (remove)="removeItem(index, group)" />
       </div>
     </div>
   </li>
