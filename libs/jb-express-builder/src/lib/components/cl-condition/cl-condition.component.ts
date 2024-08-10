@@ -20,6 +20,7 @@ import {
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { MaterialModule } from '@jitu-ui/shared';
 import {
   Field,
   OptionValue,
@@ -32,18 +33,12 @@ import {
 } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
 import { ClFieldSelectComponent } from '../cl-field-select/cl-field-select.component';
-import { MaterialModule } from '@jitu-ui/shared';
 
 @Component({
   selector: 'lib-condition',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [
-    ReactiveFormsModule,
-    ClFieldSelectComponent,
-    MaterialModule,
-    AsyncPipe
-  ],
+  imports: [ReactiveFormsModule, ClFieldSelectComponent, MaterialModule, AsyncPipe],
   templateUrl: './cl-condition.component.html',
   styleUrl: './cl-condition.component.scss'
 })

@@ -1,1 +1,18 @@
-node_modules
+# Ignore all node_modules directories
+node_modules/
+
+# Ignore all dist directories
+dist/
+
+# Ignore all .spec.ts and .test.ts files
+**/*.spec.ts
+**/*.test.ts
+
+# If you want to ignore test files in a specific directory
+# e.g., ignoring test files in the 'tests' directory
+tests/**/*.spec.ts
+tests/**/*.test.ts
+
+**/*jest.config.ts
+**/*index.html
+**/*test-setup.ts

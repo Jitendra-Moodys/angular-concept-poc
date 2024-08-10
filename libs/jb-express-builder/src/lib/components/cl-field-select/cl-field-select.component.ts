@@ -7,20 +7,17 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
-} from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 
 import { BehaviorSubject, Subject, Subscription, debounceTime } from 'rxjs';
 
+import { MaterialModule } from '@jitu-ui/shared';
 import { Field } from '../../interfaces/cl-express-builder.inteface';
 import { ClExpressionService } from '../../services/cl-expression.service';
-import { MaterialModule } from '@jitu-ui/shared';
 
 @Component({
   selector: 'lib-field-select',
@@ -32,13 +29,11 @@ import { MaterialModule } from '@jitu-ui/shared';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ClFieldSelectComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
-export class ClFieldSelectComponent
-  implements OnInit, OnDestroy, ControlValueAccessor
-{
+export class ClFieldSelectComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() allFields!: Field[];
   @Output() fieldSelected = new EventEmitter<string>();
 
@@ -56,11 +51,9 @@ export class ClFieldSelectComponent
   ngOnInit() {
     this.fielteredOptions.next(this.allFields);
 
-    this.inputValueSubs = this.inputValueChange
-      .pipe(debounceTime(150))
-      .subscribe((data) => {
-        this.filterOptions(data);
-      });
+    this.inputValueSubs = this.inputValueChange.pipe(debounceTime(150)).subscribe((data) => {
+      this.filterOptions(data);
+    });
   }
 
   ngOnDestroy() {
@@ -71,9 +64,7 @@ export class ClFieldSelectComponent
 
   filterOptions(contains: string): void {
     if (contains) {
-      const values = this.allFields.filter((item) =>
-        item.label.toLowerCase().includes(contains.toLowerCase())
-      );
+      const values = this.allFields.filter((item) => item.label.toLowerCase().includes(contains.toLowerCase()));
       this.fielteredOptions.next(values);
     } else {
       this.fielteredOptions.next(this.allFields);

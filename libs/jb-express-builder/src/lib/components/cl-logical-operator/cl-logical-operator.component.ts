@@ -2,9 +2,8 @@ import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/cor
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 
-
-import { LogicalOperator } from '../../interfaces/cl-express-builder.inteface';
 import { MaterialModule } from '@jitu-ui/shared';
+import { LogicalOperator } from '../../interfaces/cl-express-builder.inteface';
 
 @Component({
   selector: 'lib-logical-operator',

@@ -1,8 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Person } from "@jitu-ui/jb-express-builder";
-
+import { Person } from '@jitu-ui/jb-express-builder';
 
 export const PEOPLE_DATA: Person[] = [
   {

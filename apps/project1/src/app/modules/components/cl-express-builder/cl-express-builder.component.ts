@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
+import {
+  ClExpressionBuilderComponent,
+  ExpressionChangeEvent,
+  Field,
+  QueryExpression
+} from '@jitu-ui/jb-express-builder';
 import { sampleFields, sampleData } from './sample-data';
 import { SampleRemoteService } from './sample.remote.service';
-import { ClExpressionBuilderComponent, ExpressionChangeEvent, Field, QueryExpression } from '@jitu-ui/jb-express-builder';
 
 @Component({
   selector: 'cl-express-builder',

@@ -4,10 +4,12 @@
   "overrides": [
     {
       "files": ["*.ts"],
-      "extends": [
-        "plugin:@nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
+      "parserOptions": {
+        "project": [
+          "libs/jb-express-builder/tsconfig.*?.json"
+        ],
+        "createDefaultProgram": true
+      },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -29,7 +31,6 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@nx/angular-template"],
       "rules": {}
     }
   ]

@@ -13,8 +13,8 @@ import {
   of
 } from 'rxjs';
 
-import { PEOPLE_DATA } from './data';
 import { LookupService, Person } from '@jitu-ui/jb-express-builder';
+import { PEOPLE_DATA } from './data';
 
 @Injectable({
   providedIn: 'root'
