@@ -1,0 +1,12 @@
+{
+    "name": "@jitu-ui/jb-express-builder",
+    "version": "24.41.0",
+    "peerDependencies": {
+      "@angular/common": "~18.1.0",
+      "@angular/core": "~18.1.0"
+    },
+    "dependencies": {
+      "tslib": "^2.3.0"
+    }
+  }
+  

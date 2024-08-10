@@ -6,6 +6,22 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+
+      "options": {
+        "project": "libs/jb-express-builder/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/jb-express-builder/tsconfig.lib.json"
+        },
+        "development": {
+          "tsConfig": "libs/jb-express-builder/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

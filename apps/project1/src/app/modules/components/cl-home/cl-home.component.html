@@ -16,13 +16,7 @@
   </div>
 </form>
 
-<ng-template
-  #rulegroup
-  let-group="group"
-  let-rules="rules"
-  let-parent="parent"
-  let-gindex="index"
->
+<ng-template #rulegroup let-group="group" let-rules="rules" let-parent="parent" let-gindex="index">
   <li>
     <div class="header">
       <div class="form-header">
@@ -31,93 +25,54 @@
           <option value="AND">AND</option>
           <option value="OR">OR</option>
         </select>
-        <button type="button" class="action-btn" (click)="addCondition(group)">
-          Add Condition
-        </button>
-        <button type="button" class="action-btn" (click)="addGroup(group)">
-          Add Group
-        </button>
+        <button type="button" class="action-btn" (click)="addCondition(group)">Add Condition</button>
+        <button type="button" class="action-btn" (click)="addGroup(group)">Add Group</button>
         @if (parent) {
-          <button
-            type="button"
-            class="remove-btn"
-            (click)="removeItem(gindex, parent)"
-          >
-            Remove
-          </button>
+        <button type="button" class="remove-btn" (click)="removeItem(gindex, parent)">Remove</button>
         }
       </div>
     </div>
 
     <ul>
-      @for (item of rules.controls; track item; let i = $index) {
-        @if (isCondition(item)) {
-          <ng-container
-            [ngTemplateOutlet]="ruleitem"
-            [ngTemplateOutletContext]="{
+      @for (item of rules.controls; track item; let i = $index) { @if (isCondition(item)) {
+      <ng-container
+        [ngTemplateOutlet]="ruleitem"
+        [ngTemplateOutletContext]="{
               group: group,
               item: item,
               index: i,
               first: i === 0,
               last: i === rules.length - 1,
             }"
-          />
-        }
-        @if (isGroup(item)) {
-          <ng-container
-            [ngTemplateOutlet]="rulegroup"
-            [ngTemplateOutletContext]="{
+      />
+      } @if (isGroup(item)) {
+      <ng-container
+        [ngTemplateOutlet]="rulegroup"
+        [ngTemplateOutletContext]="{
               group: item,
               rules: extractRules(item),
               parent: group,
               index: i,
             }"
-          />
-        }
-      }
+      />
+      } }
     </ul>
   </li>
 </ng-template>
 
-<ng-template
-  #ruleitem
-  let-group="group"
-  let-item="item"
-  let-first="first"
-  let-last="last"
-  let-index="index"
->
+<ng-template #ruleitem let-group="group" let-item="item" let-first="first" let-last="last" let-index="index">
   <li>
-    <div
-      class="item"
-      [class.last]="last"
-      [class.first]="first"
-      [formGroup]="item"
-    >
+    <div class="item" [class.last]="last" [class.first]="first" [formGroup]="item">
       <div class="condition-item">
-        <input
-          placeholder="Field"
-          class="form-control"
-          formControlName="fieldName"
-        />
+        <input placeholder="Field" class="form-control" formControlName="fieldName" />
         <select class="form-control" formControlName="operator">
           <option value="=">=</option>
           <option value="!=">!=</option>
           <option value=">">></option>
           <option value="<"><</option>
         </select>
-        <input
-          placeholder="Value"
-          class="form-control"
-          formControlName="value"
-        />
-        <button
-          type="button"
-          class="remove-btn"
-          (click)="removeItem(index, group)"
-        >
-          Remove
-        </button>
+        <input placeholder="Value" class="form-control" formControlName="value" />
+        <button type="button" class="remove-btn" (click)="removeItem(index, group)">Remove</button>
       </div>
     </div>
   </li>

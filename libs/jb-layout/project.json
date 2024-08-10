@@ -1,11 +1,27 @@
 {
-  "name": "libs",
+  "name": "jb-layout",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/jb-layout/src",
   "prefix": "lib",
   "projectType": "library",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+
+      "options": {
+        "project": "libs/jb-layout/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/jb-layout/tsconfig.lib.json"
+        },
+        "development": {
+          "tsConfig": "libs/jb-layout/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

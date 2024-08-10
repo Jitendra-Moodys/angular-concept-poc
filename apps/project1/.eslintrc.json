@@ -9,10 +9,14 @@
   },
   "overrides": [
     {
-      "files": ["*.ts"]
+      "files": ["*.ts"],
+      "extends": [],
+      "rules": {}
     },
    {
-      "files": ["*.html"]
+      "files": ["*.html"],
+      "extends": [],
+      "rules": {}
    }
   ]
 }

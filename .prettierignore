@@ -6,10 +6,10 @@
 # .angular
 dist/
 node_modules/
-*.json
-*.html
-*.scss
-*.js
+# *.json
+# *.html
+# *.scss
+# *.js
 
 .angular
 .nx
