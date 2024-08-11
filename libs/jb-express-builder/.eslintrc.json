@@ -1,13 +1,11 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["!**/*", "storybook-static"],
   "overrides": [
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "libs/jb-express-builder/tsconfig.*?.json"
-        ],
+        "project": ["libs/jb-express-builder/tsconfig.*?.json", "libs\\jb-express-builder\\.storybook\\tsconfig.json"],
         "createDefaultProgram": true
       },
       "rules": {

@@ -29,7 +29,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatSelectModule,
-    MatDatepickerModule,
+    MatDatepickerModule
   ],
   exports: [
     MatToolbarModule,
@@ -45,6 +45,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatButtonToggleModule,
     MatDatepickerModule
   ],
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter()]
 })
 export class MaterialModule {}

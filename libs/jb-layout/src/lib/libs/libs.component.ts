@@ -21,9 +21,9 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatMenuModule,
+    MatMenuModule
   ],
   templateUrl: './libs.component.html',
-  styleUrl: './libs.component.css',
+  styleUrl: './libs.component.css'
 })
 export class LibsComponent {}

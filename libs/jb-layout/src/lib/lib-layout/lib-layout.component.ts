@@ -8,7 +8,7 @@ import { MaterialModule } from '@jitu-ui/shared';
   standalone: true,
   imports: [CommonModule, RouterModule, MaterialModule],
   templateUrl: './lib-layout.component.html',
-  styleUrl: './lib-layout.component.scss',
+  styleUrl: './lib-layout.component.scss'
 })
 export class LibLayoutComponent {
   currentYear: number = new Date().getFullYear();
