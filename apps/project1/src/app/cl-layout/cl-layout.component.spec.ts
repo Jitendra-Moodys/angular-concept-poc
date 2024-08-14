@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Add this import
 
 import { ClLayoutComponent } from './cl-layout.component';
 
@@ -8,7 +9,7 @@ describe('ClLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClLayoutComponent]
+      imports: [BrowserAnimationsModule, ClLayoutComponent]
     })
     .compileComponents();
 

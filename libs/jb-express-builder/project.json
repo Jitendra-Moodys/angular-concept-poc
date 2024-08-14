@@ -8,7 +8,6 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-
       "options": {
         "project": "libs/jb-express-builder/ng-package.json"
       },
@@ -31,6 +30,54 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/jb-express-builder/.storybook",
+        "browserTarget": "jb-express-builder:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/jb-express-builder",
+        "configDir": "libs/jb-express-builder/.storybook",
+        "browserTarget": "jb-express-builder:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c libs/jb-express-builder/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "jb-express-builder:build-storybook",
+        "staticFilePath": "dist/storybook/jb-express-builder",
+        "spa": true
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "jb-express-builder:build-storybook:ci"
+        }
+      }
     }
   }
 }

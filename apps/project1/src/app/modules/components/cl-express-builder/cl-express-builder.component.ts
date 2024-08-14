@@ -26,11 +26,13 @@ export class ClExpressBuilderComponent {
   expression!: QueryExpression;
 
   feed(): void {
-    this.data = sampleData as QueryExpression;
+    this.data = { ...(sampleData as QueryExpression) };
   }
 
   change(e: ExpressionChangeEvent) {
-    this.valid = e.valid;
-    this.expression = e.expression;
+    setTimeout(() => {
+      this.valid = e.valid;
+      this.expression = e.expression;
+    }, 0);
   }
 }

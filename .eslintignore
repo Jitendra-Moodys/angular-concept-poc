@@ -16,3 +16,5 @@ tests/**/*.test.ts
 **/*jest.config.ts
 **/*index.html
 **/*test-setup.ts
+**/*stories.ts
+**/*tsconfig.json

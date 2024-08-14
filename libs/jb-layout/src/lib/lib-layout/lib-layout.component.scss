@@ -1,75 +1,91 @@
+// Variables
+$primary-color: #3f51b5;
+$secondary-color: #fafafa;
+$font-size-base: 13px;
+$font-size-small: 16px;
+$font-size-large: 20px;
+$sidenav-width-collapsed: 50px;
+$sidenav-bg-color: $secondary-color;
+$content-padding: 16px;
+$footer-height: 3vh;
+$header-height: 4vh;
+
+// Mixins
+@mixin flex-center($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin toolbar($height) {
+  height: $height;
+  @include flex-center(space-between);
+}
+
+@mixin text-style($size, $color: black, $weight: 500) {
+  font-size: $size;
+  color: $color;
+  font-weight: $weight;
+}
+
+@mixin responsive-padding($padding) {
+  padding: $padding;
+}
+
 :host {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.header {
+  @include toolbar($header-height);
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidenav {
+  background-color: $sidenav-bg-color;
+  font-size: $font-size-large;
+
+  &.collapsed {
+    width: $sidenav-width-collapsed;
   }
-  
-  .header {
-    height: 4vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+}
+
+.content {
+  flex: 1;
+  @include responsive-padding($content-padding);
+
+  &.content-collapsed {
+    margin-left: $sidenav-width-collapsed !important;
   }
-  
-  .container {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  }
-  
-  .sidenav {
-    background-color: #fafafa;
-    font-size: 20px;
-  
-    &.collapsed {
-      width: 50px;
-    }
-  }
-  
-  .content {
-    flex: 1;
-    padding: 16px;
-  
-    &.content-expanded {
-      margin-left: 200px !important;
-    }
-  
-    &.content-collapsed {
-      margin-left: 50px !important;
-    }
-  }
-  
-  .nav-text {
-    display: inline-block;
-    margin-left: 8px;
-    font-size: 13px;
-    color: black;
-    font-weight: 500;
-  }
-  
-  .small-icon {
-    font-size: 16px;
-    vertical-align: middle;
-  }
-  
-  .toggle-button-container {
-    display: flex;
-    justify-content: flex-end;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding-bottom: 1px;
-    cursor: pointer;
-    font-size: 16px;
-    vertical-align: middle;
-    font-weight: bold;
-  }
-  
-  .footer {
-    height: 3vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-  }
-  
+}
+
+.nav-text {
+  @include text-style($font-size-base);
+  margin-left: 8px;
+}
+
+.small-icon {
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+.toggle-button-container {
+  @include flex-center(flex-end);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 1px;
+  cursor: pointer;
+  @include text-style($font-size-small, black, bold);
+}
+
+.footer {
+  @include toolbar($footer-height);
+  font-size: 15px;
+}
