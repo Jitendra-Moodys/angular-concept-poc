@@ -3,14 +3,14 @@
     <ul>
       <ng-container
         *ngTemplateOutlet="
-          rulegroup;
-          context: {
-            group: form,
-            parent: null,
-            rules: extractRules(form),
-            index: 0,
-          }
-        "
+            rulegroup;
+            context: {
+              group: form,
+              parent: null,
+              rules: extractRules(form),
+              index: 0,
+            }
+          "
       />
     </ul>
   </div>
@@ -38,22 +38,22 @@
       <ng-container
         [ngTemplateOutlet]="ruleitem"
         [ngTemplateOutletContext]="{
-              group: group,
-              item: item,
-              index: i,
-              first: i === 0,
-              last: i === rules.length - 1,
-            }"
+                group: group,
+                item: item,
+                index: i,
+                first: i === 0,
+                last: i === rules.length - 1,
+              }"
       />
       } @if (isGroup(item)) {
       <ng-container
         [ngTemplateOutlet]="rulegroup"
         [ngTemplateOutletContext]="{
-              group: item,
-              rules: extractRules(item),
-              parent: group,
-              index: i,
-            }"
+                group: item,
+                rules: extractRules(item),
+                parent: group,
+                index: i,
+              }"
       />
       } }
     </ul>

@@ -17,9 +17,10 @@ $header-height: 4vh;
   align-items: $align;
 }
 
-@mixin toolbar($height) {
+@mixin toolbar($height, $justify) {
   height: $height;
-  @include flex-center(space-between);
+  font-size: 15px;
+  @include flex-center($justify);
 }
 
 @mixin text-style($size, $color: black, $weight: 500) {
@@ -31,61 +32,63 @@ $header-height: 4vh;
 @mixin responsive-padding($padding) {
   padding: $padding;
 }
-
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+@mixin padding($padding-left, $padding-right, $padding-top, $padding-bottom) {
+  padding-left: $padding-left;
+  padding-right: $padding-right;
+  padding-top: $padding-top;
+  padding-bottom: $padding-bottom;
 }
+
 .header {
-  @include toolbar($header-height);
+  @include toolbar($header-height, space-between);
 }
 
-.container {
+.layout-container {
   display: flex;
-  flex: 1;
   overflow: hidden;
-}
+  height: 92vh;
+  .sidenav {
+    background-color: $sidenav-bg-color;
+    font-size: $font-size-large;
 
-.sidenav {
-  background-color: $sidenav-bg-color;
-  font-size: $font-size-large;
+    &.collapsed {
+      width: $sidenav-width-collapsed;
+    }
 
-  &.collapsed {
-    width: $sidenav-width-collapsed;
+    mat-nav-list {
+      mat-icon {
+        font-size: 16px;
+        vertical-align: middle;
+      }
+      span {
+        @include text-style($font-size-base);
+        margin-left: 8px;
+      }
+    }
+    .toggle-button {
+      @include flex-center(flex-end);
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding-bottom: 1px;
+      cursor: pointer;
+      @include text-style($font-size-small, black, bold);
+    }
   }
-}
+  .content {
+    flex: 1;
+    height: 92vh;
 
-.content {
-  flex: 1;
-  @include responsive-padding($content-padding);
-
-  &.content-collapsed {
-    margin-left: $sidenav-width-collapsed !important;
+    &.content-collapsed {
+      margin-left: $sidenav-width-collapsed !important;
+    }
+    .sidenav-container {
+      height: auto;
+      @include padding(16px, 16px, 0, 0);
+    }
   }
-}
-
-.nav-text {
-  @include text-style($font-size-base);
-  margin-left: 8px;
-}
-
-.small-icon {
-  font-size: 16px;
-  vertical-align: middle;
-}
-
-.toggle-button-container {
-  @include flex-center(flex-end);
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding-bottom: 1px;
-  cursor: pointer;
-  @include text-style($font-size-small, black, bold);
 }
 
 .footer {
-  @include toolbar($footer-height);
-  font-size: 15px;
+  @include toolbar($header-height, center);
 }

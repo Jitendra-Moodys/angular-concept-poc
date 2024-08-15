@@ -1,24 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import {
-  ClExpressionBuilderComponent,
-  ExpressionChangeEvent,
   Field,
-  QueryExpression
+  QueryExpression,
+  ExpressionChangeEvent,
+  ClExpressionBuilderComponent
 } from '@jitu-ui/jb-express-builder';
 import { sampleFields, sampleData } from './sample-data';
-import { SampleRemoteService } from './sample.remote.service';
 
 @Component({
-  selector: 'cl-express-builder',
+  selector: 'app-query-builder',
   standalone: true,
   imports: [CommonModule, ClExpressionBuilderComponent],
-  providers: [SampleRemoteService],
-  templateUrl: './cl-express-builder.component.html',
-  styleUrl: './cl-express-builder.component.scss'
+  templateUrl: './query-builder.component.html',
+  styleUrl: './query-builder.component.scss'
 })
-export class ClExpressBuilderComponent {
+export class QueryBuilderComponent {
   fields: Field[] = sampleFields;
   data!: QueryExpression;
 

@@ -1,39 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { AsyncPipe, JsonPipe, NgTemplateOutlet } from '@angular/common';
 import {
+  ReactiveFormsModule,
+  FormsModule,
   AbstractControl,
   FormArray,
   FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators
 } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgTemplateOutlet, AsyncPipe, JsonPipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { Subject, takeUntil } from 'rxjs';
 
-// models/expression.model.ts
-
-export interface Condition {
-  field: string;
-  operator: string;
-  value: object;
-}
-
-export interface Expression {
-  operator: string; // AND, OR
-  conditions: Condition[];
-  expressions: Expression[]; // Nested groups
-}
-
 @Component({
-  selector: 'cl-home',
+  selector: 'app-home',
   standalone: true,
+
   imports: [
     ReactiveFormsModule,
     NgTemplateOutlet,
@@ -46,10 +33,10 @@ export interface Expression {
     MatButtonModule,
     MatIconModule
   ],
-  templateUrl: './cl-home.component.html',
-  styleUrl: './cl-home.component.scss'
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
-export class ClHomeComponent implements OnInit {
+export class HomeComponent implements OnInit {
   form!: UntypedFormGroup;
 
   invalid = false;
